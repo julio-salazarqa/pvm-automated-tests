@@ -23,17 +23,23 @@ test.describe('Enterprise Patient Search and Registration', () => {
 
     // Enter username from environment variable
     const usernameField = page.getByRole('textbox').first();
-    await usernameField.fill(username);
+    await test.step('Enter username', async () => {
+      await usernameField.fill(username);
+    });
 
     // Click Next button (this reveals the password field)
     const nextButton = page.getByRole('button', { name: 'Next' });
     await nextButton.click();
     await page.waitForTimeout(1000);
 
-    // Enter password from environment variable
+    // Enter password from environment variable (hidden from report)
     const passwordField = page.locator('input[type="password"]').last();
     await passwordField.waitFor({ state: 'visible', timeout: 15000 });
-    await passwordField.fill(password);
+    await test.step('Enter password', async () => {
+      // Use evaluate to hide from Allure report
+      await passwordField.evaluate((el, pass) => el.value = pass, password);
+      await passwordField.dispatchEvent('input');
+    });
 
     // Click Login button
     await page.getByRole('button', { name: 'Login' }).click();
