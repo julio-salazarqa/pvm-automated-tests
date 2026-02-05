@@ -1,0 +1,32 @@
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Allure Reports
+allure-results/
+allure-report/
+.allure/
+
+# Environment variables (contains sensitive credentials)
+.env
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Videos and screenshots
+videos/
+*.png
+*.webm
+
+# Logs
+*.log
+npm-debug.log*

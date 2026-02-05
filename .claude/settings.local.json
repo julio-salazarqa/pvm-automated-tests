@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node extract-jira-testcases-interactive.js:*)",
+      "Bash(ls:*)",
+      "Bash(node extract-jira-via-okta.js:*)",
+      "Bash(node extract-jira-automatic.js:*)",
+      "Bash(node extract-aim-testcases.js:*)",
+      "Bash(node extract-from-existing-browser.js:*)",
+      "Bash(where msedge)",
+      "Bash(dir \"C:\\\\Program Files \\(x86\\)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\")",
+      "Bash(dir \"C:\\\\Program Files\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe\")",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(node:*)",
+      "Bash(test:*)",
+      "Bash(npm test:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(dir:*)",
+      "Bash(for dir in enterprise-patient-registr-*)",
+      "Bash(do echo \"\")",
+      "Bash(echo:*)",
+      "Bash(done)",
+      "Bash(npm install:*)",
+      "Bash(PVM_USERNAME=\"\" PVM_PASSWORD=\"\" npx playwright test:*)",
+      "Bash(npm i:*)",
+      "Bash(npx allure:*)",
+      "Bash(winget:*)",
+      "Bash(refreshenv)",
+      "Bash(export PATH=\"/c/Program Files/Eclipse Adoptium/jre-17.0.17.10-hotspot/bin:$PATH\")",
+      "Bash(java:*)",
+      "Bash(timeout 3 cat:*)",
+      "Bash(cat:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

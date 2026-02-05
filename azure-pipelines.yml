@@ -1,0 +1,55 @@
+# Azure DevOps Pipeline for Playwright Tests
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # Credentials come from Azure Pipeline Variables (encrypted)
+  # Set these in: Pipeline -> Edit -> Variables -> New variable
+  # Check "Keep this value secret" checkbox
+  PVM_USERNAME: $(PVM_USERNAME)
+  PVM_PASSWORD: $(PVM_PASSWORD)
+  PVM_URL: $(PVM_URL)
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm ci
+  displayName: 'Install dependencies'
+
+- script: |
+    npx playwright install --with-deps
+  displayName: 'Install Playwright browsers'
+
+- script: |
+    npm test
+  displayName: 'Run Playwright tests'
+  env:
+    PVM_USERNAME: $(PVM_USERNAME)
+    PVM_PASSWORD: $(PVM_PASSWORD)
+    PVM_URL: $(PVM_URL)
+
+- task: PublishTestResults@2
+  condition: always()
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/test-results.xml'
+    failTaskOnFailedTests: true
+  displayName: 'Publish test results'
+
+- task: PublishPipelineArtifact@1
+  condition: always()
+  inputs:
+    targetPath: 'test-results'
+    artifact: 'test-videos'
+    publishLocation: 'pipeline'
+  displayName: 'Upload test videos'
