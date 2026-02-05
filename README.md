@@ -2,6 +2,8 @@
 
 Automated end-to-end tests for Practice Velocity Management (PVM) using Playwright with Allure reporting.
 
+📊 **[View Latest Test Report](https://julio-salazarqa.github.io/pvm-automated-tests/)** (Allure Report on GitHub Pages)
+
 ## Prerequisites
 
 - Node.js 16+
@@ -58,14 +60,24 @@ npx playwright test --project=edge
 
 ## Viewing Reports
 
+### Online Report (GitHub Pages)
+📊 **[View Latest Test Report](https://julio-salazarqa.github.io/pvm-automated-tests/)**
+
+### Local Reports
 ```bash
-# Generate and open Allure report
+# Generate and open Allure report locally
 npm run allure:serve
 
 # Or generate static report
 npm run allure:report
 npm run allure:open
 ```
+
+### Publish Updated Report to GitHub Pages
+```bash
+powershell -ExecutionPolicy Bypass -File publish-report.ps1
+```
+This script will run tests, generate the report, and publish it automatically.
 
 ## Test Cases
 
