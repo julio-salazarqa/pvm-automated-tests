@@ -2,6 +2,9 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('Clockwise Patient Check-in and Registration', () => {
   test('Create patient via Clockwise and complete registration in PM - XPM-T3432', async ({ page }) => {
+    // Skip this test in CI environment (GitHub Actions) since it requires external Clockwise access
+    test.skip(!!process.env.CI, 'Skipping Clockwise test in CI environment - requires external system access');
+
     test.setTimeout(180000); // 3 minutes timeout - patient appears almost immediately
 
     // Allure metadata
