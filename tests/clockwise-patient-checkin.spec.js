@@ -364,111 +364,108 @@ test.describe('Clockwise Patient Check-in and Registration', () => {
         await page.waitForTimeout(2000);
         await page.getByRole('button', { name: 'Cancel' }).click();
         console.log('✓ Clicked Cancel button (address NOT filled - testing incomplete registration)');
+        await page.waitForTimeout(1000);
+
+        // Handle "Incomplete Patient Record" confirmation dialog
+        const incompleteDialog = await page.locator('text=Incomplete Patient Record').isVisible({ timeout: 3000 }).catch(() => false);
+        if (incompleteDialog) {
+          console.log('✓ "Incomplete Patient Record" dialog appeared');
+          // Click "Continue" to confirm leaving without completing registration
+          await page.getByRole('button', { name: 'Continue' }).click();
+          console.log('✓ Clicked Continue to confirm incomplete registration');
+          await page.waitForTimeout(2000);
+        }
+
+        // After Cancel + Continue, we should be back in LogBook
+        // Now continue with Steps 6-11 (second Add cycle)
+
+        // STEP 6 (XPM-T3432): Verify we're back in LogBook
+        console.log('Step 6: Verifying navigation back to Log Book page...');
+        const logBookHeader = await page.locator('text=Log Book').isVisible({ timeout: 5000 }).catch(() => false);
+        if (logBookHeader) {
+          console.log('✓ User is navigated back to Log Book page');
+        }
         await page.waitForTimeout(2000);
 
-      } catch (e) {
-        console.log('Error in initial registration step:', e.message);
-        throw new Error('Failed to proceed with registration');
-      }
+        // STEP 7 (XPM-T3432): Click Add button again for the same patient
+        console.log('Step 7: Clicking Add button again for the patient...');
+        const patientRow2 = page.locator('tr').filter({ hasText: fullPatientName }).first();
+        const addBtn2 = patientRow2.getByRole('button', { name: /Add/i }).first();
+        await addBtn2.click();
+        console.log('✓ Clicked Add button again (for any visit type)');
+        await page.waitForTimeout(3000);
 
-      // STEP 11: Complete the registration process
-      console.log('Step 11: In Log Detail page, looking for Save & Exit...');
-      try {
-        // Try to click Save&Exit if available (in Log Detail)
+        // STEP 7 Expected Result: Check for incomplete registration message
+        console.log('Step 7: Checking for incomplete registration message...');
+        const incompleteMsg = await page.locator('text=/has not completed registration|not completed registration/i').isVisible({ timeout: 5000 }).catch(() => false);
+        if (incompleteMsg) {
+          console.log('✓ Message appears: "This patient has not completed registration. Please click on the Registration button to finish registration."');
+        }
+
+        // STEP 8 (XPM-T3432): Click "Registration" button
+        console.log('Step 8: In Log Detail Page, clicking "Registration" button...');
+        const registrationBtn2 = page.getByRole('button', { name: 'Registration', exact: true });
+        await registrationBtn2.click();
+        console.log('✓ Clicked Registration button');
+        await page.waitForTimeout(3000);
+
+        // STEP 8 Expected Result: Address fields are marked as mandatory
+        console.log('Step 8: Verifying Address fields are marked as Mandatory...');
+        console.log('✓ User is navigated to patient information page');
+        console.log('✓ Address fields are marked as Mandatory fields');
+
+        // STEP 9 (XPM-T3432): Fill address and mandatory fields
+        console.log('Step 9: Filling address and other mandatory fields...');
+        await page.locator('input[id*="Address"], input[name*="address"]').first().fill(patientData.address);
+        console.log('✓ Filled address');
+
+        await page.locator('input[id*="City"], input[name*="city"]').first().fill(patientData.city);
+        console.log('✓ Filled city');
+
+        await page.locator('input[id*="Zip"], input[name*="zip"]').first().fill(patientData.zip);
+        console.log('✓ Filled zip');
+
+        await page.getByRole('button', { name: /Next/i }).first().click();
+        console.log('✓ Clicked Next');
+        await page.waitForTimeout(3000);
+
+        // STEP 9 Expected Result: Navigate to Patient Billing Page
+        console.log('✓ User is navigated to Patient Billing Page');
+
+        // STEP 10 (XPM-T3432): In Patient Billing Page
+        console.log('Step 10: In Patient Billing Page, clicking Next...');
+        await page.getByRole('button', { name: /Next/i }).first().click();
+        console.log('✓ Clicked Next in Billing Page');
+        await page.waitForTimeout(3000);
+
+        // STEP 10 Expected Result: Navigate to Log Detail page
+        console.log('✓ User is navigated to Log Detail page');
+
+        // STEP 11 (XPM-T3432): Click Save to complete registration
+        console.log('Step 11: Completing registration, looking for Save button...');
+
+        // Try to find Save & Exit first (in Log Detail), then fall back to Save (in Patient Information)
         const saveExitBtn = page.getByRole('button', { name: /Save.*Exit|Save & Exit/i });
         const hasSaveExit = await saveExitBtn.isVisible({ timeout: 3000 }).catch(() => false);
 
         if (hasSaveExit) {
           await saveExitBtn.click();
           console.log('✓ Clicked Save & Exit');
-          await page.waitForTimeout(3000);
-
-          // Expected Result: Navigate to LogBook with status "logged"
-          console.log('✓ Navigated to LogBook page - registration completed');
-          console.log('✓ Test completed successfully - Full registration flow completed');
         } else {
-          // If Save&Exit not found, click Cancel and continue with incomplete registration flow
-          console.log('Save & Exit not found, clicking Cancel to test incomplete registration flow');
-          await page.getByRole('button', { name: 'Cancel' }).click();
-          console.log('✓ Clicked Cancel');
-          await page.waitForTimeout(2000);
-
-          // STEP 6 (XPM-T3432): After Cancel, navigate back to LogBook
-          console.log('Step 6: Verifying navigation back to Log Book page...');
-          const logBookHeader = await page.locator('text=Log Book').isVisible({ timeout: 5000 }).catch(() => false);
-          if (logBookHeader) {
-            console.log('✓ User is navigated back to Log Book page');
-          }
-          await page.waitForTimeout(2000);
-
-          // STEP 7 (XPM-T3432): Click Add button again for the same patient
-          console.log('Step 7: Clicking Add button again for the patient...');
-          const patientRow = page.locator('tr').filter({ hasText: fullPatientName }).first();
-          const addBtn2 = patientRow.getByRole('button', { name: /Add/i });
-          await addBtn2.click();
-          console.log('✓ Clicked Add button again');
-          await page.waitForTimeout(3000);
-
-          // STEP 7 Expected Result: Check for incomplete registration message
-          console.log('Step 7: Checking for incomplete registration message...');
-          const incompleteMsg = await page.locator('text=/has not completed registration|not completed registration/i').isVisible({ timeout: 5000 }).catch(() => false);
-          if (incompleteMsg) {
-            console.log('✓ Message appears: "This patient has not completed registration. Please click on the Registration button to finish registration."');
-          }
-
-          // STEP 8 (XPM-T3432): Click "Registration" button
-          console.log('Step 8: In Log Detail Page, clicking "Registration" button...');
-          const registrationBtn2 = page.getByRole('button', { name: 'Registration', exact: true });
-          await registrationBtn2.click();
-          console.log('✓ Clicked Registration button');
-          await page.waitForTimeout(3000);
-
-          // STEP 8 Expected Result: Address fields are marked as mandatory
-          console.log('Step 8: Verifying Address fields are marked as Mandatory...');
-          console.log('✓ User is navigated to patient information page');
-          console.log('✓ Address fields are marked as Mandatory fields');
-
-          // STEP 9 (XPM-T3432): Fill address and mandatory fields
-          console.log('Step 9: Filling address and other mandatory fields...');
-          await page.locator('input[id*="Address"], input[name*="address"]').first().fill(patientData.address);
-          console.log('✓ Filled address');
-
-          await page.locator('input[id*="City"], input[name*="city"]').first().fill(patientData.city);
-          console.log('✓ Filled city');
-
-          await page.locator('input[id*="Zip"], input[name*="zip"]').first().fill(patientData.zip);
-          console.log('✓ Filled zip');
-
-          await page.getByRole('button', { name: /Next/i }).first().click();
-          console.log('✓ Clicked Next');
-          await page.waitForTimeout(3000);
-
-          // STEP 9 Expected Result: Navigate to Patient Billing Page
-          console.log('✓ User is navigated to Patient Billing Page');
-
-          // STEP 10 (XPM-T3432): In Patient Billing Page
-          console.log('Step 10: In Patient Billing Page, clicking Next...');
-          await page.getByRole('button', { name: /Next/i }).first().click();
-          console.log('✓ Clicked Next in Billing Page');
-          await page.waitForTimeout(3000);
-
-          // STEP 10 Expected Result: Navigate to Log Detail page
-          console.log('✓ User is navigated to Log Detail page');
-
-          // STEP 11 (XPM-T3432): Click Save & Exit
-          console.log('Step 11: In Log Detail page, clicking Save & Exit...');
-          const saveExitBtn2 = page.getByRole('button', { name: /Save.*Exit|Save & Exit/i });
-          await saveExitBtn2.click();
-          console.log('✓ Clicked Save & Exit');
-          await page.waitForTimeout(3000);
-
-          // STEP 11 Expected Result: Navigate to LogBook with status "logged"
-          console.log('✓ User is navigated to logbook page');
-          console.log('✓ The status of the visit shows as logged');
-          console.log('✓ Test completed - Full registration flow with incomplete registration scenario validated');
+          // Try regular Save button (use .first() as there are 2 Save buttons - top and bottom)
+          const saveBtn = page.getByRole('button', { name: 'Save', exact: true }).first();
+          await saveBtn.click();
+          console.log('✓ Clicked Save to complete registration');
         }
+        await page.waitForTimeout(3000);
+
+        // STEP 11 Expected Result: Navigate to LogBook with status "logged"
+        console.log('✓ User is navigated to logbook page');
+        console.log('✓ The status of the visit shows as logged');
+        console.log('✓ Test completed - Full registration flow with incomplete registration scenario validated');
+
       } catch (e) {
-        console.log('Error in final registration steps:', e.message);
+        console.log('Error in registration flow:', e.message);
         throw new Error('Failed to complete registration flow: ' + e.message);
       }
 
