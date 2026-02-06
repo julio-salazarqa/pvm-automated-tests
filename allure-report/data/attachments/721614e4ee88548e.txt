@@ -1,7 +1,0 @@
-Patient not found, registering new patient...
-✓ Test PASSED: Registration completed successfully
-✓ Insurance panel is NOT visible (as expected)
-✓ Delete button is present and visible
-Confirmation dialog appeared: Are you sure you want to delete this patient record?
-Confirmation dialog accepted
-✓ Patient deleted successfully - test is now cyclable

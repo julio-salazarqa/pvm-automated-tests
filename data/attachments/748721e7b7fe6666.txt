@@ -1,0 +1,63 @@
+Using patient: Elena SAMPLE Sr.
+Step 1: Navigating to Clockwise...
+Step 2: Filling patient information in Clockwise...
+Selecting visit date and time for TOMORROW...
+Trying date: Friday
+      Feb 6, 2026
+✓ Found 27 time slots
+✓ Date and time selected (TOMORROW)
+Clicking Get in Line...
+✓ Get in Line clicked
+✓ Clockwise check-in completed - patient will sync to PM LogBook
+✓ Clockwise check-in completed (registration incomplete as required by test)
+Step 3: Logging into PM...
+✓ Logged into PM successfully
+Step 3: Navigating to LogBook...
+Could not click LogBook link: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('a:has-text("Log Book"), a[href*="LogBook"]').first()
+    - locator resolved to <a href="LogBook.aspx" id="menu_Patient_LogBook">Log Book</a>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    13 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+    - waiting for element to be visible, enabled and stable
+
+Current page: Log Book: Friday 2/6/2026
+Setting date to tomorrow using calendar: 02/06/2026
+Clicked date field to open calendar
+✓ Clicked day 6 in calendar - LogBook should refresh automatically
+Searching for patient: SAMPLE, ELENA
+Attempt 1/6: Checking for SAMPLE, ELENA...
+✓ Patient found after 1 attempts (5 seconds)!
+✓ Patient found in logbook from Clockwise!
+Step 4: Clicking Add button in patient row...
+✓ Clicked Add button for patient
+Step 5: In Log Detail - checking page type...
+Step 6: Proceeding with registration...
+Register button is disabled, clicking Verify first...
+✓ Clicked Verify button
+✓ Clicked Register button
+Step 9: Filling address and mandatory fields...
+✓ Filled address
+✓ Filled city
+✓ Filled zip
+✓ Clicked Next
+✓ Navigated to Patient Billing Page
+Step 10: In Patient Billing Page...
+✓ Clicked Next in Billing
+✓ Navigated to Log Detail page
+Step 11: Completing registration...
+Save & Exit not found, clicking Cancel to exit
+✓ Clicked Cancel
+✓ Test completed - Address fields were successfully filled and validated as mandatory
+✓ ALL STEPS COMPLETED SUCCESSFULLY!
