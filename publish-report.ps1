@@ -5,25 +5,29 @@ Write-Host "Running tests..." -ForegroundColor Cyan
 # Run tests
 npm test
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "`nTests failed! Report will not be published." -ForegroundColor Red
+    Write-Host ""
+    Write-Host "Tests failed! Report will not be published." -ForegroundColor Red
     exit 1
 }
 
-Write-Host "`n✓ All tests passed!" -ForegroundColor Green
+Write-Host ""
+Write-Host "✓ All tests passed!" -ForegroundColor Green
 
 # Set Java environment
 $env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-17.0.18.8-hotspot"
 $env:Path = "$env:JAVA_HOME\bin;" + $env:Path
 
 # Generate Allure report
-Write-Host "`nGenerating Allure report..." -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Generating Allure report..." -ForegroundColor Cyan
 npx allure generate allure-results --clean -o allure-report
 
 # Save current branch
 $currentBranch = git branch --show-current
 
 # Copy report to temp location
-Write-Host "`nPublishing to GitHub Pages..." -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Publishing to GitHub Pages..." -ForegroundColor Cyan
 $tempDir = "$env:TEMP\allure-report-temp"
 if (Test-Path $tempDir) {
     Remove-Item -Path $tempDir -Recurse -Force
@@ -44,6 +48,8 @@ git push origin gh-pages
 # Switch back to original branch
 git checkout $currentBranch
 
-Write-Host "`n✓ Report published successfully!" -ForegroundColor Green
-Write-Host "`nView at: https://julio-salazarqa.github.io/pvm-automated-tests/" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "✓ Report published successfully!" -ForegroundColor Green
+Write-Host ""
+Write-Host "View at: https://julio-salazarqa.github.io/pvm-automated-tests/" -ForegroundColor Yellow
 Write-Host "Note: GitHub Pages may take 1-2 minutes to update" -ForegroundColor Gray
