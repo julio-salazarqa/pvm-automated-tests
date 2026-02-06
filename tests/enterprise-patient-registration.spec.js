@@ -2,6 +2,9 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('Enterprise Patient Search and Registration', () => {
   test('Register new patient without insurance panel - XPM-XXXX', async ({ page, context }) => {
+    // Skip this test in CI environment (GitHub Actions) since it requires PM system access
+    test.skip(!!process.env.CI, 'Skipping test in CI environment - requires PM system access with valid credentials');
+
     test.setTimeout(90000); // Increase timeout to 90 seconds for the full test
 
     // Load credentials from environment variables

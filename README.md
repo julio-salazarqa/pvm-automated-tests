@@ -81,14 +81,28 @@ This script will run tests, generate the report, and publish it automatically.
 
 ## Test Cases
 
-### Enterprise Patient Registration
+### 1. Enterprise Patient Registration (XPM-XXXX)
 - Login to PVM
 - Navigate to Appointments
 - Search and register patient
 - Verify no insurance panel
 - Clean up (delete patient)
 
-**Status:** ✅ Passing on all browsers
+**Status:** ✅ Passing locally | ⏭️ Skipped in CI
+
+### 2. Clockwise Patient Check-in and Registration (XPM-T3432)
+- Create unique patient in Clockwise for next day
+- Login to PM
+- Navigate to LogBook with calendar date picker
+- Find patient synced from Clockwise (~5 seconds)
+- Complete registration: Add → Verify → Register
+- Fill mandatory address fields (address, city, zip)
+- Navigate through Patient Information → Billing pages
+- Validate address fields are required
+
+**Status:** ✅ Passing locally (~1.2 min) | ⏭️ Skipped in CI
+
+**Note:** Both tests require access to external systems (PM and Clockwise) and are skipped in GitHub Actions CI. Run tests locally with valid credentials to see full results.
 
 ## CI/CD Setup (GitHub Actions)
 
