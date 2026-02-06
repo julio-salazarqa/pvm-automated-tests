@@ -4,6 +4,19 @@ test.describe('Clockwise Patient Check-in and Registration', () => {
   test('Create patient via Clockwise and complete registration in PM - XPM-T3432', async ({ page }) => {
     test.setTimeout(180000); // 3 minutes timeout - patient appears almost immediately
 
+    // Allure metadata
+    test.info().annotations.push(
+      { type: 'epic', description: 'Patient Management' },
+      { type: 'feature', description: 'Clockwise Integration' },
+      { type: 'story', description: 'Patient Check-in and Registration' },
+      { type: 'severity', description: 'critical' },
+      { type: 'owner', description: 'QA Team' },
+      { type: 'tag', description: 'clockwise' },
+      { type: 'tag', description: 'patient-registration' },
+      { type: 'tag', description: 'e2e' },
+      { type: 'tag', description: 'integration' }
+    );
+
     // Test data - using valid phone number confirmed to work
     // Generate unique identifiers WITHOUT numbers in names
     const timestamp = Date.now().toString().slice(-4);

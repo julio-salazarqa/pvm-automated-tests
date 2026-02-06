@@ -35,12 +35,26 @@ jobs:
         PVM_URL: ${{ secrets.PVM_URL }}
       run: npm test
 
-    - name: Upload test results
+    - name: Generate Allure Report
+      if: always()
+      run: |
+        npm install -g allure-commandline
+        allure generate allure-results --clean -o allure-report
+
+    - name: Upload Playwright HTML report
       uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report
         path: playwright-report/
+        retention-days: 30
+
+    - name: Upload Allure report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: allure-report
+        path: allure-report/
         retention-days: 30
 
     - name: Upload videos
@@ -50,3 +64,12 @@ jobs:
         name: test-videos
         path: test-results/**/video.webm
         retention-days: 7
+
+    - name: Deploy Allure report to GitHub Pages
+      if: always() && github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./allure-report
+        publish_branch: gh-pages
+        keep_files: false
