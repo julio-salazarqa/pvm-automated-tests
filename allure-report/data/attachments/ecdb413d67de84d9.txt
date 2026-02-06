@@ -1,0 +1,77 @@
+Using patient: Diego VERIFY Sr.
+Step 1: Navigating to Clockwise...
+Step 2: Filling patient information in Clockwise...
+Selecting visit date and time for TOMORROW...
+Trying date: Friday
+      Feb 6, 2026
+✓ Found 13 time slots
+✓ Date and time selected (TOMORROW)
+Clicking Get in Line...
+✓ Get in Line clicked
+✓ Clockwise check-in completed - patient will sync to PM LogBook
+✓ Clockwise check-in completed (registration incomplete as required by test)
+Step 3: Logging into PM...
+✓ Logged into PM successfully
+Step 3: Navigating to LogBook...
+Could not click LogBook link: locator.click: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('a:has-text("Log Book"), a[href*="LogBook"]').first()
+    - locator resolved to <a href="LogBook.aspx" id="menu_Patient_LogBook">Log Book</a>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not visible
+    - retrying click action
+      - waiting 100ms
+    11 × waiting for element to be visible, enabled and stable
+       - element is not visible
+     - retrying click action
+       - waiting 500ms
+
+Current page: Log Book: Friday 2/6/2026
+Setting date to tomorrow using calendar: 02/06/2026
+Clicked date field to open calendar
+✓ Clicked day 6 in calendar - LogBook should refresh automatically
+Searching for patient: VERIFY, DIEGO
+Attempt 1/6: Checking for VERIFY, DIEGO...
+✓ Patient found after 1 attempts (5 seconds)!
+✓ Patient found in logbook from Clockwise!
+Step 4: Clicking Add button in patient row...
+✓ Clicked Add button for patient
+Step 5: In Log Detail - checking page type...
+Step 6: Proceeding with initial registration...
+Register button is disabled, clicking Verify first...
+✓ Clicked Verify button
+✓ Clicked Register button
+Step 6: On Patient Information page, clicking Cancel button...
+✓ Clicked Cancel button (address NOT filled - testing incomplete registration)
+✓ "Incomplete Patient Record" dialog appeared
+✓ Clicked Continue to confirm incomplete registration
+Step 6: Verifying navigation back to Log Book page...
+Step 7: Clicking Add button again for the patient...
+✓ Clicked Add button again (for any visit type)
+Step 7: Checking for incomplete registration message...
+✓ Message appears: "This patient has not completed registration. Please click on the Registration button to finish registration."
+Step 8: In Log Detail Page, clicking "Registration" button...
+✓ Clicked Registration button
+Step 8: Verifying Address fields are marked as Mandatory...
+✓ User is navigated to patient information page
+✓ Address fields are marked as Mandatory fields
+Step 9: Filling address and other mandatory fields...
+✓ Filled address
+✓ Filled city
+✓ Filled zip
+✓ Clicked Next
+✓ User is navigated to Patient Billing Page
+Step 10: In Patient Billing Page, clicking Next...
+✓ Clicked Next in Billing Page
+✓ User is navigated to Log Detail page
+Step 11: Completing registration, looking for Save button...
+✓ Clicked Save to complete registration
+✓ User is navigated to logbook page
+✓ The status of the visit shows as logged
+✓ Test completed - Full registration flow with incomplete registration scenario validated
+✓ ALL STEPS COMPLETED SUCCESSFULLY!
